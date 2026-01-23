@@ -1,151 +1,294 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Servidor Valley</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Servidor Valley</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+:root{
+  --blue:#3a86ff;
+  --green:#52b788;
+  --orange:#ff9f1c;
+  --dark:#060d14;
+  --panel:#0b1a2a;
+}
 
-    body {
-      background: linear-gradient(#7ec850, #f4f1e6);
-      min-height: 100vh;
-      color: #2e3d1f;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI, Arial, sans-serif;
+}
 
-    header {
-      background-color: #4f772d;
-      color: #fff;
-      text-align: center;
-      padding: 30px 15px;
-    }
+/* BACKGROUND */
+body{
+  min-height:100vh;
+  color:#e6f1ff;
+  background:
+    radial-gradient(circle at top, rgba(58,134,255,.15), transparent 40%),
+    linear-gradient(rgba(4,8,15,.95), rgba(4,8,15,.98)),
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
+  background-size:cover;
+  overflow-x:hidden;
+}
 
-    header h1 {
-      font-size: 2.5rem;
-    }
+/* SCANLINE HUD */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.04),
+    rgba(255,255,255,.04) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  animation:scan 7s linear infinite;
+  mix-blend-mode:overlay;
+}
 
-    header p {
-      margin-top: 10px;
-      font-size: 1.1rem;
-    }
+@keyframes scan{
+  to{background-position:0 100%;}
+}
 
-    main {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 15px;
-    }
+/* HEADER */
+header{
+  position:relative;
+  text-align:center;
+  padding:28px 15px;
+  background:linear-gradient(180deg,var(--panel),var(--dark));
+  border-bottom:2px solid var(--blue);
+  overflow:hidden;
+}
 
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 25px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
+/* linhas animadas */
+header::before,
+header::after{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:2px;
+  left:-100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    var(--blue),
+    var(--green),
+    var(--orange),
+    transparent
+  );
+  animation:lineMove 3.5s linear infinite;
+}
+header::after{
+  bottom:0;
+  animation-delay:1.75s;
+}
 
-    .card h2 {
-      margin-bottom: 15px;
-      color: #4f772d;
-    }
+@keyframes lineMove{
+  to{left:100%;}
+}
 
-    .card ul {
-      list-style: none;
-    }
+header h1{
+  font-size:2.3rem;
+  letter-spacing:3px;
+  color:#dbe9ff;
+  text-shadow:
+    0 0 15px var(--blue),
+    0 0 30px rgba(58,134,255,.6);
+}
 
-    .card ul li {
-      margin-bottom: 8px;
-    }
+header p{
+  margin-top:6px;
+  opacity:.85;
+}
 
-    .meet-button {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 15px 25px;
-      background-color: #2d6a4f;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
+#clock{
+  margin-top:10px;
+  font-weight:bold;
+  color:var(--orange);
+}
 
-    .meet-button:hover {
-      background-color: #1b4332;
-    }
+/* MAIN */
+main{
+  max-width:900px;
+  margin:35px auto;
+  padding:0 15px;
+}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #4f772d;
-      color: #fff;
-    }
-  </style>
+/* CARDS */
+.card{
+  position:relative;
+  background:linear-gradient(160deg,var(--panel),var(--dark));
+  border:1px solid rgba(58,134,255,.4);
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:26px;
+  overflow:hidden;
+  animation:cardIn .9s ease both;
+}
+
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:none;}
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,159,28,.15),
+    transparent 65%
+  );
+  opacity:0;
+  transition:.4s;
+}
+.card:hover::before{opacity:1;}
+
+.card h2{
+  margin-bottom:10px;
+  color:var(--green);
+}
+
+/* BOTÃO */
+.meet-button{
+  display:inline-block;
+  margin-top:12px;
+  padding:14px 28px;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  background:linear-gradient(135deg,var(--blue),var(--green));
+  border:1px solid var(--orange);
+  position:relative;
+  overflow:hidden;
+}
+
+.meet-button::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.6),
+    transparent
+  );
+  transform:translateX(-100%);
+  transition:.5s;
+}
+.meet-button:hover::after{
+  transform:translateX(100%);
+}
+
+/* DISCORD */
+iframe{
+  width:100%;
+  border-radius:14px;
+  border:1px solid var(--blue);
+  box-shadow:0 0 25px rgba(58,134,255,.5);
+}
+
+/* QR */
+.qr{text-align:center;}
+.qr img{
+  width:220px;
+  max-width:100%;
+  margin-top:15px;
+  border-radius:16px;
+  border:2px solid var(--orange);
+  animation:energy 3s infinite;
+}
+
+@keyframes energy{
+  0%{box-shadow:0 0 10px var(--orange);}
+  50%{box-shadow:0 0 35px var(--orange);}
+  100%{box-shadow:0 0 10px var(--orange);}
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:18px;
+  border-top:2px solid var(--blue);
+  background:var(--dark);
+  color:#9bbcff;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  header h1{font-size:1.9rem;}
+  .meet-button{width:100%;text-align:center;}
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>🌾 Servidor Valley</h1>
-    <p>Um servidor tranquilo, organizado e focado em evolução</p>
-  </header>
+<header>
+  <h1>🌾 SERVIDOR VALLEY</h1>
+  <p>Painel interno</p>
+  <div id="clock">--:--:--</div>
+</header>
 
-  <main>
-    <section class="card">
-      <h2>🌾 Bem-vindo ao Servidor Valley</h2>
-      <p>
-        Bem-vindo ao Servidor Valley.
-        Aqui o foco é aprender, trocar ideia, desenvolver projetos
-        e manter um ambiente leve e organizado.
-      </p>
-      <p>
-        Entre, fique à vontade e participe.
-      </p>
-    </section>
+<main>
 
-    <section class="card">
-      <h2>🛠️ O que você encontra aqui</h2>
-      <ul>
-        <li>💬 Conversas organizadas</li>
-        <li>📚 Troca de conhecimento</li>
-        <li>💻 Desenvolvimento e estudos</li>
-        <li>🤝 Ajuda mútua</li>
-      </ul>
-    </section>
+<section class="card">
+  <h2>📌 Sobre</h2>
+  <p>
+    Painel interno do Servidor Valley para controle rápido.
+  </p>
+</section>
 
-    <section class="card">
-      <h2>📞 Chamada ao vivo</h2>
-      <p>Clique no botão abaixo para entrar direto na chamada do Google Meet.</p>
+<section class="card">
+  <h2>📞 Chamadas</h2>
+  <a href="https://bit.ly/Lorranstardewmeet" target="_blank" class="meet-button">
+    Google Meet
+  </a>
+  <p style="margin-top:14px">
+    PC e telefone: canais de voz do Discord
+  </p>
+</section>
 
-      <a
-        href="https://meet.google.com/SEU-LINK-AQUI"
-        target="_blank"
-        class="meet-button"
-      >
-        Entrar na chamada
-      </a>
-    </section>
+<section class="card">
+  <h2>🎧 Discord</h2>
+  <iframe
+    src="https://discord.com/widget?id=1262455212111560805&theme=dark"
+    height="400"
+    allowtransparency="true"
+    frameborder="0"
+    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+  </iframe>
+</section>
 
-    <section class="card">
-      <h2>🟢 Quem está online no Discord</h2>
+<section class="card qr">
+  <h2>📱 Acesso rápido</h2>
+  <img src="qr-code.png" alt="QR Code Servidor Valley">
+</section>
 
-      <iframe
-        src="https://discord.com/widget?id=1262455212111560805&theme=light"
-        width="100%"
-        height="400"
-        allowtransparency="true"
-        frameborder="0"
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-      </iframe>
-    </section>
-  </main>
+</main>
 
-  <footer>
-    <p>🌱 Servidor Valley • HTML e CSS puro</p>
-  </footer>
+<footer>
+  Servidor Valley 2026
+</footer>
+
+<script>
+function updateClock(){
+  const d=new Date();
+  document.getElementById("clock").textContent =
+    String(d.getHours()).padStart(2,'0') + ":" +
+    String(d.getMinutes()).padStart(2,'0') + ":" +
+    String(d.getSeconds()).padStart(2,'0');
+}
+setInterval(updateClock,1000);
+updateClock();
+</script>
 
 </body>
 </html>
